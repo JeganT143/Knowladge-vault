@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: knowledge_db
+    environment:
+      POSTGRES_USER: kvuser
+      POSTGRES_PASSWORD: kvpassword
+      POSTGRES_DB: knowledge_vault
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kvuser -d knowledge_vault"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:
+  
